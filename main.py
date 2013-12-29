@@ -8,7 +8,6 @@ from kivy import Config
 from kivy.uix.boxlayout import BoxLayout
 
 __author__ = 'D4rkFr4g'
-#test
 
 class SlideTile(Widget):
     is_touched = False
