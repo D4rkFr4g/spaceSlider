@@ -2,7 +2,7 @@
 
 <SlideTile>:
     #pos_hint: {'x':0.5, 'y':0.5}
-    size: self.parent.height * 0.2, self.parent.height * 0.2
+    #size: self.parent.height * 0.2, self.parent.height * 0.2
     #size: 1.0 / 20, 1.0 / 20
     #pos: self.pos
 
@@ -21,15 +21,30 @@
         pos: self.parent.pos
         size: self.parent.size
 
-    SlideTile:
-        id: 'tile0'
-        #pos_hint: {'x': 0.5, 'y': 0.5}
-        pos: 50, 50
-
-    SlideTile:
-        id: 'tile1'
-        #pos_hint: {'x': 0.25, 'y': 0.25}
-        pos: 200, 200
+#    SlideTile:
+#        id: 'tile0'
+#        tile_id: 0
+#        pos: 50, 50
+#
+#    SlideTile:
+#        id: 'tile1'
+#        tile_id: 1
+#        pos: 200, 200
+#
+#    SlideTile:
+#        id: 'tile1'
+#        tile_id: 2
+#        pos: 0, 0
+#
+#    SlideTile:
+#        id: 'tile1'
+#        tile_id: 3
+#        pos: 0, 0
+#
+#    SlideTile:
+#        id: 'tile1'
+#        tile_id: 4
+#        pos: 0, 0
 
     Label:
         id: title
