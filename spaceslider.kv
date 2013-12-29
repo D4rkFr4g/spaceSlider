@@ -28,36 +28,23 @@
         pos: self.parent.pos
         size: self.parent.size
 
-#    SlideTile:
-#        id: 'tile0'
-#        tile_id: 0
-#        pos: 50, 50
-#
-#    SlideTile:
-#        id: 'tile1'
-#        tile_id: 1
-#        pos: 200, 200
-#
-#    SlideTile:
-#        id: 'tile1'
-#        tile_id: 2
-#        pos: 0, 0
-#
-#    SlideTile:
-#        id: 'tile1'
-#        tile_id: 3
-#        pos: 0, 0
-#
-#    SlideTile:
-#        id: 'tile1'
-#        tile_id: 4
-#        pos: 0, 0
+    Image:
+        source: 'images/blackbox.png'
+        pos: 350, 500
+        size: self.size
 
-    Label:
-        id: title
-        text: 'Space Slide'
-        size_hint: None, None
-        pos_hint: {'y':0.9}
-        center: (self.parent.center_x, 0)
+        Label:
+            id: title
+            text: 'Space Slide'
+            size_hint: None, None
+            pos: self.parent.pos[0], self.parent.pos[1]
+            color: 1, 1, 1, 1
+
+    Image:
+        id: puzzle_bg
+        source: 'images/puzzlebg.png'
+        pos: 200, 100
+        size: 400, 400
+
 
 
