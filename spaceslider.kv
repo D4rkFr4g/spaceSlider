@@ -6,12 +6,19 @@
     #size: 1.0 / 20, 1.0 / 20
     #pos: self.pos
 
-    canvas:
-        Color:
-            rgba: 1,0,0,1
-        Rectangle:
-            size: self.size
-            pos: self.pos
+    Image:
+        id: my_image
+        source: self.source #'images/puzzle.png'
+        pos: self.parent.pos
+        size: self.parent.size
+
+#    canvas:
+#        Color:
+#            rgba: 1,0,0,1
+#        Rectangle:
+#            id: my_rectangle
+#            size: self.size
+#            pos: self.pos
 
 
 <SliderGame>:

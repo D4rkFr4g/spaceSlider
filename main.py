@@ -1,3 +1,4 @@
+from Canvas import Rectangle
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.properties import ObjectProperty
@@ -7,6 +8,7 @@ from random import shuffle
 import math
 
 __author__ = 'D4rkFr4g'
+
 
 class SlideTile(Widget):
     is_touched = False
@@ -28,15 +30,16 @@ class SlideTile(Widget):
 
 
 class SliderGame(Widget):
-    texture = Image(source='images/puzzle.png').texture
-    #texture = ObjectProperty()
+    #texture = Image(source='images/puzzle.png').texture
+    my_image = 'images/puzzle.png'
+    texture = ObjectProperty()
     #tile_list = [[i] for i in range(16)]
     tile_list = []
     num_of_tiles = 16
 
     def __init__(self, **kwargs):
         super(SliderGame, self).__init__(**kwargs)
-        #self.texture = Image(source = 'images/puzzle.png').texture
+        self.texture = Image(source='images/puzzle.png').texture
 
     def texture_tiles(self):
         print 'Now texturing tiles'
@@ -65,9 +68,11 @@ class SliderGame(Widget):
         while i < self.num_of_tiles:
             temp = SlideTile()
             temp.tile_id = i
-            temp.size = self.height * 0.4, self.height * 0.4
+            temp.size = self.height * 0.5, self.height * 0.5
             temp.pos = x * i, y * i
-            temp.texture = self.texture     # For testing purposes
+            my_image = temp.ids['my_image']
+            my_image.source = 'images/puzzle_' + str(i) + '.png'   # For testing purposes
+            print 'source= ' + my_image.source
             self.tile_list.append(temp)     # Add to window
             self.add_widget(temp)
             i += 1
@@ -86,12 +91,14 @@ class SliderGame(Widget):
 
 
 class SpaceSliderApp(App):
+
     def build(self):
         game = SliderGame()
         game.init_tiles()
         #game.texture_tiles()
         game.shuffle_tiles()
         game.print_tiles()
+
 
         return game
 
