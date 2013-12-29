@@ -1,0 +1,41 @@
+#:kivy 1.7.2
+
+<SlideTile>:
+    #pos_hint: {'x':0.5, 'y':0.5}
+    size: self.parent.height * 0.2, self.parent.height * 0.2
+    #size: 1.0 / 20, 1.0 / 20
+    #pos: self.pos
+
+    canvas:
+        Color:
+            rgba: 1,0,0,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+
+<SliderGame>:
+    Image:
+        id: bg_image
+        source: 'images/bg.jpg'
+        pos: self.parent.pos
+        size: self.parent.size
+
+    SlideTile:
+        id: 'tile0'
+        #pos_hint: {'x': 0.5, 'y': 0.5}
+        pos: 50, 50
+
+    SlideTile:
+        id: 'tile1'
+        #pos_hint: {'x': 0.25, 'y': 0.25}
+        pos: 200, 200
+
+    Label:
+        id: title
+        text: 'Space Slide'
+        size_hint: None, None
+        pos_hint: {'y':0.9}
+        center: (self.parent.center_x, 0)
+
+
