@@ -11,36 +11,94 @@ __author__ = 'D4rkFr4g'
 
 class SlideTile(Widget):
     is_touched = False
+    blank_tile_index = 0
+    current_tile_index = 0
+    blank_grid_pos = 0, 0
+    current_grid_pos = 0, 0
+
+    @staticmethod
+    def reposition():
+        SliderGame.reposition_tiles(SpaceSliderApp.game)
 
     def on_touch_down(self, touch):
         if self.collide_point(touch.x, touch.y):
             self.is_touched = True
+            self.find_tile_positions()
             print 'tile_id = ' + str(self.tile_id)
+
+    def find_tile_positions(self):
+        game = SpaceSliderApp.game
+
+        # Store position of current and blank tile index
+        for i in range(0, game.num_of_tiles):
+            if game.tile_list[i].tile_id == 12:
+                self.blank_tile_index = i
+
+            if game.tile_list[i].tile_id == self.tile_id:
+                self.current_tile_index = i
+
+        current_row = (self.current_tile_index) / 4
+        current_col = self.current_tile_index % 4
+        self.current_grid_pos = current_row, current_col
+
+        blank_row = (self.blank_tile_index) / 4
+        blank_col = self.blank_tile_index % 4
+        self.blank_grid_pos = blank_row, blank_col
+
+        #print 'current_row = ' + str(self.current_grid_pos[0])
+        #print 'current_col = ' + str(self.current_grid_pos[1])
+        #print 'blank_row = ' + str(self.blank_grid_pos[0])
+        #print 'blank_col = ' + str(self.blank_grid_pos[1])
 
     def on_touch_move(self, touch):
         if self.is_touched:
             #print self.pos
-            self.center = touch.pos
+            self.move_tiles(touch)
+            #self.center = touch.pos
 
     def on_touch_up(self, touch):
         if self.is_touched:
             #print 'Dirty Touch'
             self.is_touched = False
-            SliderGame.reposition_tiles(SpaceSliderApp.game)
+            self.reposition()
+
+    def move_tiles(self, touch):
+
+        # Figure out direction of blank space tile_id == 12
+        # print 'current_tile_index = ' + str(self.current_tile_index + 1)
+        # print 'blank_tile_index = ' + str(self.blank_tile_index + 1)
+
+        # Figure which direction user is trying to go
+        move_vector = touch.pos[0] - self.center_x, touch.pos[1] - self.center_y
+        if abs(move_vector[0]) > abs(move_vector[1]):
+            # Moving x_direction
+            if self.current_grid_pos[0] == self.blank_grid_pos[0]:
+                #Same Row
+                self.set_center_x(touch.pos[0])
+        else:
+            # Moving y_direction
+            if self.current_grid_pos[1] == self.blank_grid_pos[1]:
+                # Same Col
+                self.set_center_y(touch.pos[1])
+
+        # for i in range (0, SpaceSliderApp.game.num_of_tiles):
+        #     SpaceSliderApp.game.grid_pos
+        # Readjust the grid according to the new order. ?New World Order?
+        #self.reposition()
+
+
 
 
 class SliderGame(Widget):
-    #texture = Image(source='images/puzzle.png').texture
     my_image = 'images/puzzle.png'
     texture = ObjectProperty()
-    #tile_list = [[i] for i in range(16)]
     tile_list = []
     grid_pos = []
     num_of_tiles = 16
+    blank_id = 12
 
     def __init__(self, **kwargs):
         super(SliderGame, self).__init__(**kwargs)
-        self.texture = Image(source='images/puzzle.png').texture
 
     def texture_tiles(self):
         print 'Now texturing tiles'
@@ -68,13 +126,11 @@ class SliderGame(Widget):
 
         tile_width = self.width
         tile_height = self.height
-        #print 'screen_width = ' + str(self.parent.width / 2.0)
-        #start_x = (self.width / 2.0) - (tile_width * 2)
-        #start_y = (self.height / 2.0) + (tile_height * 2)
         start_x = 200
         start_y = 400
         current_pos = start_x, start_y
 
+        # Setup all the tile positions in the grid
         for i in range(0, 4):
             for j in range(0, 4):
                 pos = current_pos
@@ -122,19 +178,11 @@ class SpaceSliderApp(App):
     game = SliderGame()
 
     def build(self):
-        # game = SliderGame()
-        # game.init_tiles()
-        # #game.texture_tiles()
-        # game.shuffle_tiles()
-        # game.print_tiles()
-
         self.game = SliderGame()
         self.game.init_tiles()
         self.game.shuffle_tiles()
         self.game.print_tiles()
 
-
-        #return game
         return self.game
 
 
