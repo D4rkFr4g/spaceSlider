@@ -65,26 +65,31 @@ class SlideTile(Widget):
     def move_tiles(self, touch):
 
         # Figure out direction of blank space tile_id == 12
-        # print 'current_tile_index = ' + str(self.current_tile_index + 1)
-        # print 'blank_tile_index = ' + str(self.blank_tile_index + 1)
 
         # Figure which direction user is trying to go
         move_vector = touch.pos[0] - self.center_x, touch.pos[1] - self.center_y
         if abs(move_vector[0]) > abs(move_vector[1]):
             # Moving x_direction
             if self.current_grid_pos[0] == self.blank_grid_pos[0]:
-                #Same Row
-                self.set_center_x(touch.pos[0])
+                # Same Row as blank
+                if abs(self.current_grid_pos[1] - self.blank_grid_pos[1]) == 1:
+                    # Next to blank
+                    if (move_vector[0] > 0 and self.blank_grid_pos[1] > self.current_grid_pos[1]) or (
+                            move_vector[0] < 0 and self.blank_grid_pos[1] < self.current_grid_pos[1]):
+                        # Towards blank
+                        self.set_center_x(touch.pos[0])
         else:
             # Moving y_direction
             if self.current_grid_pos[1] == self.blank_grid_pos[1]:
-                # Same Col
-                self.set_center_y(touch.pos[1])
+                # Same Col as blank
+                if abs(self.current_grid_pos[0] - self.blank_grid_pos[0]) == 1:
+                    # Next to blank
+                    if (move_vector[1] < 0 and self.blank_grid_pos[0] > self.current_grid_pos[0]) or (
+                            move_vector[1] > 0 and self.blank_grid_pos[0] < self.current_grid_pos[0]):
+                        # Towards blank
+                        self.set_center_y(touch.pos[1])
 
-        # for i in range (0, SpaceSliderApp.game.num_of_tiles):
-        #     SpaceSliderApp.game.grid_pos
         # Readjust the grid according to the new order. ?New World Order?
-        #self.reposition()
 
 
 

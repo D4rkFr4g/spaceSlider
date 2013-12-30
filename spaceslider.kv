@@ -46,5 +46,17 @@
         pos: 200, 100
         size: 400, 400
 
+    Button:
+        id: reset_button
+        text: 'Reshuffle'
+        size: 100, 40
+        pos: 200, 30
+        on_press: root.shuffle_tiles()
 
+    Button:
+        id: end_button
+        text: 'Instant Win'
+        size: 100, 40
+        pos: 500, 30
+        on_press: exit()
 
