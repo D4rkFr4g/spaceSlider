@@ -41,6 +41,18 @@
             color: 1, 1, 1, 1
 
     Image:
+        source: 'images/blackbox.png'
+        pos: 350, 0
+        size: self.size
+
+        Label:
+            id: my_score
+            text: 'Moves: 0'
+            size_hint: None, None
+            pos: self.parent.pos[0], self.parent.pos[1]
+            color: 1, 1, 1, 1
+
+    Image:
         id: puzzle_bg
         source: 'images/puzzlebg.png'
         pos: 200, 100

@@ -15,6 +15,7 @@ class SlideTile(Widget):
     current_tile_index = 0
     blank_grid_pos = 0, 0
     current_grid_pos = 0, 0
+    is_swapped = False
 
     @staticmethod
     def reposition():
@@ -37,11 +38,11 @@ class SlideTile(Widget):
             if game.tile_list[i].tile_id == self.tile_id:
                 self.current_tile_index = i
 
-        current_row = (self.current_tile_index) / 4
+        current_row = self.current_tile_index / 4
         current_col = self.current_tile_index % 4
         self.current_grid_pos = current_row, current_col
 
-        blank_row = (self.blank_tile_index) / 4
+        blank_row = self.blank_tile_index / 4
         blank_col = self.blank_tile_index % 4
         self.blank_grid_pos = blank_row, blank_col
 
@@ -61,12 +62,12 @@ class SlideTile(Widget):
             #print 'Dirty Touch'
             self.is_touched = False
             self.reposition()
+            self.is_swapped = False
 
     def move_tiles(self, touch):
+        is_swapping = False
 
-        # Figure out direction of blank space tile_id == 12
-
-        # Figure which direction user is trying to go
+        # Figure which direction user is trying to go and verify it's toward blank
         move_vector = touch.pos[0] - self.center_x, touch.pos[1] - self.center_y
         if abs(move_vector[0]) > abs(move_vector[1]):
             # Moving x_direction
@@ -78,6 +79,7 @@ class SlideTile(Widget):
                             move_vector[0] < 0 and self.blank_grid_pos[1] < self.current_grid_pos[1]):
                         # Towards blank
                         self.set_center_x(touch.pos[0])
+                        is_swapping = True
         else:
             # Moving y_direction
             if self.current_grid_pos[1] == self.blank_grid_pos[1]:
@@ -88,10 +90,26 @@ class SlideTile(Widget):
                             move_vector[1] > 0 and self.blank_grid_pos[0] < self.current_grid_pos[0]):
                         # Towards blank
                         self.set_center_y(touch.pos[1])
+                        is_swapping = True
 
         # Readjust the grid according to the new order. ?New World Order?
+        if is_swapping:
+            self.swap()
 
+    def swap(self):
+        if self.is_swapped == False:
+            game = SpaceSliderApp.game
+            # Swap and Mop
+            print "I'm gonna swap"
+            a = game.tile_list
+            b = self.current_tile_index
+            c = self.blank_tile_index
+            a[b], a[c] = a[c], a[b]
 
+            label = self.parent.ids['my_score']
+            game.score += 1
+            label.text = 'Moves: ' + str(game.score)
+            self.is_swapped = True
 
 
 class SliderGame(Widget):
@@ -101,6 +119,7 @@ class SliderGame(Widget):
     grid_pos = []
     num_of_tiles = 16
     blank_id = 12
+    score = 0
 
     def __init__(self, **kwargs):
         super(SliderGame, self).__init__(**kwargs)
@@ -168,6 +187,7 @@ class SliderGame(Widget):
     def shuffle_tiles(self):
         shuffle(self.tile_list)
         self.reposition_tiles()
+        self.score = 0
 
     def print_tiles(self):
         i = 0
