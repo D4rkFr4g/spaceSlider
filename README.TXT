@@ -17,5 +17,4 @@ Known issues:
 ?	Overall layout sizes isn't scaling appropriately to different screen sizes
 ?	Dynamic image to tiles function isn't working correctly so feature was disable for the time being
 ?	Move count doesn't reset when shuffle button is pressed
-? Some permutations are unsolvable since it is using a random sort, a better method would be to start from
-  the image and shuffle by randomly moving pieces to the empty spot guaranteeing solvability
+? Some permutations are unsolvable since it is using a random sort, a better method would be to start from the image and shuffle by randomly moving pieces to the empty spot guaranteeing solvability
